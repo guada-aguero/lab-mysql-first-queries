@@ -6,39 +6,34 @@ SELECT DISTINCT prime_genre
 FROM applestore2;
 
 -- 2. Which is the genre with more apps rated?
-SELECT prime_genre
-	  ,sum(rating_count_tot) AS num_of_ratings
+SELECT prime_genre, sum(rating_count_tot) AS num_of_ratings
 FROM applestore2
 GROUP by prime_genre
 ORDER by num_of_ratings DESC;
 /* The genre with more apps rated is Games with 52630139  ratings */
 
 -- 3. Which is the genre with more apps?
-SELECT prime_genre
-	  ,count(id) as total_apps
+SELECT prime_genre, count(id) as total_apps
 FROM applestore2
 GROUP by prime_genre
 ORDER by total_apps DESC;
 /* The genre with more apps  is Games with 3808  apps */
 
 -- 4. Which is the one with less?
-SELECT prime_genre
-	  ,count(id) as total_apps
+SELECT prime_genre, count(id) as total_apps
 FROM applestore2
 GROUP by prime_genre
 ORDER by total_apps;
 /* The genre with less apps  is Catalogs with 10  apps */
 
 -- 5. Take the 10 apps most rated.
-SELECT track_name
-	  ,rating_count_tot
+SELECT track_name, rating_count_tot
 FROM applestore2
 ORDER by rating_count_tot DESC
 LIMIT 10;
 
 -- 6. Take the 10 apps best rated by users.
-SELECT track_name
-      ,user_rating
+SELECT track_name, user_rating
 FROM applestore2
 ORDER by user_rating DESC
 LIMIT 10;
@@ -57,9 +52,7 @@ for example, when the names contain characters from other languages that aren't 
 /* As I mentioned in question 8, we would need to consider these both results together, in order to be able to perform a more accurate or fair analysis of rating vs number or reviews*/
 
 -- 10. How could you take the top 3 regarding the user ratings but also the number of votes?
-SELECT track_name
-	  ,user_rating
-      ,rating_count_tot
+SELECT track_name, user_rating, rating_count_tot
 FROM applestore2
 ORDER by 2 DESC,3 DESC
 LIMIT 3;
@@ -81,10 +74,10 @@ We can see that there are about 30% more free apps*/
 
 /*Then we can check the avg user rating for free and paid apps*/
 SELECT
-	CASE
-	   WHEN price = 0 THEN 'Free'
-       ELSE 'Paid'
-	END AS app_type
+    CASE
+	WHEN price = 0 THEN 'Free'
+	ELSE 'Paid'
+    END AS app_type
     ,avg(user_rating) AS avg_rating
 FROM applestore2
 GROUP by app_type;
@@ -94,10 +87,10 @@ GROUP by app_type;
   
 /*We can now look at the average number of ratings for free and paid apps.*/
 SELECT
-	CASE
-		WHEN price = 0 THEN 'Free'
+    CASE
+	WHEN price = 0 THEN 'Free'
         ELSE 'Paid'
-	END AS app_type
+    END AS app_type
     ,avg(rating_count_tot) AS avg_total_ratings
 FROM applestore2
 GROUP by app_type;
@@ -106,9 +99,7 @@ We can see here, that free apps receive significantly more ratings on average th
 
 /*To understand the direct relationship between price and user rating, we can analyze the correlation.*/
 SELECT 
-     price
-    ,AVG(user_rating) AS avg_rating
-    ,AVG(rating_count_tot) AS avg_total_ratings
+     price, AVG(user_rating) AS avg_rating, AVG(rating_count_tot) AS avg_total_ratings
 FROM applestore2
 GROUP BY price
 ORDER BY price;
